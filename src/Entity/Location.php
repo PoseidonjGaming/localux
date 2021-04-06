@@ -57,7 +57,7 @@ abstract class Location
     private $leVehicule;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\client")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client")
      * @ORM\JoinColumn(nullable=false)
      */
     private $leClient;

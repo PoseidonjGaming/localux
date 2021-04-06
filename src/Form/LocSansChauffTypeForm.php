@@ -5,8 +5,11 @@ namespace App\Form;
 use App\Entity\LocationSansChauffeur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Enity\FormuleSansChauffeur;
+use App\Entity\FormuleSansChauffeur;
+use App\Entity\Modele;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 
 class LocSansChauffTypeForm extends AbstractType
@@ -14,29 +17,27 @@ class LocSansChauffTypeForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateLocation')
-            ->add('montantRegle')
-            ->add('dateHreDepartPrevu')
-            ->add('dateHreDepartReel')
-            ->add('dateHreRetourPrevu')
-            ->add('dateHreRetourReel')
-            ->add('nbKmsDepart')
-            ->add('nbKmRetour')
-            ->add('leVehicule')
-            ->add('leClient')
             ->add('laFormuleSC', EntityType::class, [            
                 'class' => FormuleSansChauffeur::class,            
-                'choice_label' => 'nom',
+                'choice_label' => 'libelle',
                 'choice_value' => 'id',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.nom', 'ASC');},
                 'multiple' => false,
                 'expanded' => false,
                 'mapped'=>false,
                 'required'=>false
             ])
+            ->add('modele', EntityType::class, [            
+                'class' => Modele::class,            
+                'choice_label' => 'nom',
+                'choice_value' => 'id',
+                'multiple' => false,
+                'expanded' => false,
+                'mapped'=>false,
+                'required'=>false
+            ])
+            ->add('Confirmation de la location', SubmitType::class,['attr' => ['class' =>'btn btn-primary']])
         ;
+        
     }
 
     public function configureOptions(OptionsResolver $resolver)

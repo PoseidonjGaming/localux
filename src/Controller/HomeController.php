@@ -18,7 +18,7 @@ class HomeController extends AbstractController
     public function index(Request $request): Response
     {
         $loc=new LocationSansChauffeur();
-        $fom=$this->createForm(LocSansChauffTypeForm::class, $loc);
+        $form=$this->createForm(LocSansChauffTypeForm::class, $loc);
         $form->handleRequest($request);
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),
