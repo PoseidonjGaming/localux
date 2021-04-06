@@ -6,8 +6,10 @@ use App\Entity\LocationSansChauffeur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Enity\FormuleSansChauffeur;
 
-class LocSansChauffTypeFormType extends AbstractType
+
+class LocSansChauffTypeForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
