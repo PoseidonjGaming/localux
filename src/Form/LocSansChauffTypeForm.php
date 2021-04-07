@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\FormuleSansChauffeur;
 use App\Entity\Modele;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
 class LocSansChauffTypeForm extends AbstractType
@@ -34,6 +35,11 @@ class LocSansChauffTypeForm extends AbstractType
                 'expanded' => false,
                 'mapped'=>false,
                 'required'=>false
+            ])
+            ->add('datelocation', DateType::class,[
+                'input'=>'datetime',
+                'widget'=>'single_text',
+                'disabled'=>'disabled'
             ])
             ->add('Confirmation de la location', SubmitType::class,['attr' => ['class' =>'btn btn-primary']])
         ;

@@ -12,3 +12,19 @@
    {{form(form)}}
 </div>
 {% endblock %}
+
+{% block javascripts %}
+<script>
+    
+   $('#loc_sans_chauff_type_form_datelocation').change(function () {
+       select=document.getElementById('loc_sans_chauff_type_form_modele')
+       choice=select.selectIndex
+       console.log(select.options[choice].value)
+    if(){$('#').removeAttr('disabled');} 
+    ;
+        
+   
+}); 
+
+</script>
+{% endblock %}

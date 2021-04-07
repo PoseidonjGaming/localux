@@ -20,6 +20,9 @@ class HomeController extends AbstractController
         $loc=new LocationSansChauffeur();
         $form=$this->createForm(LocSansChauffTypeForm::class, $loc);
         $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            
+        }
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),
         ]);
