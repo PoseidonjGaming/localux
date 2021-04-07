@@ -32,6 +32,11 @@ class Vehicule
      */
     private $leModele;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Km_supp;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Vehicule
     public function setLeModele(?Modele $leModele): self
     {
         $this->leModele = $leModele;
+
+        return $this;
+    }
+
+    public function getKmSupp(): ?int
+    {
+        return $this->Km_supp;
+    }
+
+    public function setKmSupp(int $Km_supp): self
+    {
+        $this->Km_supp = $Km_supp;
 
         return $this;
     }

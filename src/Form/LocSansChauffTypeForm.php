@@ -11,6 +11,7 @@ use App\Entity\FormuleSansChauffeur;
 use App\Entity\Modele;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 
 class LocSansChauffTypeForm extends AbstractType
@@ -36,11 +37,11 @@ class LocSansChauffTypeForm extends AbstractType
                 'mapped'=>false,
                 'required'=>false
             ])
-            ->add('datelocation', DateType::class,[
-                'input'=>'datetime',
+            ->add('datelocation', DateTimeType::class,[
                 'widget'=>'single_text',
                 'disabled'=>'disabled'
             ])
+            
             ->add('Confirmation de la location', SubmitType::class,['attr' => ['class' =>'btn btn-primary']])
         ;
         

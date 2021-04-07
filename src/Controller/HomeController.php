@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\FormuleSansChauffeur;
 use App\Entity\LocationSansChauffeur;
 use App\Form\LocSansChauffTypeForm;
+use App\Entity\Vehicule;
 
 class HomeController extends AbstractController
 {
@@ -21,7 +22,9 @@ class HomeController extends AbstractController
         $form=$this->createForm(LocSansChauffTypeForm::class, $loc);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            
+            $voitures=$this->getDoctrine()->getRepository(Vehicule::class)->findAll();
+            $laVoiture=array_rand($voitures,1);
+            //return $this->redirectToRoute('logins');            
         }
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),

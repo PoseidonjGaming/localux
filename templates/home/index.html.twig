@@ -16,15 +16,15 @@
 {% block javascripts %}
 <script>
     
-   $('#loc_sans_chauff_type_form_datelocation').change(function () {
-       select=document.getElementById('loc_sans_chauff_type_form_modele')
-       choice=select.selectIndex
-       console.log(select.options[choice].value)
-    if(){$('#').removeAttr('disabled');} 
-    ;
-        
-   
-}); 
+  $('#loc_sans_chauff_type_form_modele').change(function () {
+    
+    choice = $(this).children('option:selected').val()  // Récupération de l'index du <option> choisi
+    
+    console.log(choice);
+    if(choice !="" ){$('#loc_sans_chauff_type_form_datelocation').removeAttr('disabled');}
+    else{$('#loc_sans_chauff_type_form_datelocation').attr('disabled','disabled');}
+    
+  }); 
 
 </script>
 {% endblock %}
