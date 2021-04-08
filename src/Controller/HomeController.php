@@ -34,13 +34,27 @@ class HomeController extends AbstractController
             $now=new \DateTime();
             $prevueD=new \DateTime($_POST['departPrevuD'].$_POST['departPrevuH']);
             $duree=$form->get('laFormuleSC')->getData()->getDuree();
+
             if($duree==4){
-                $prevueR_tmp=new \DateTime($_POST['departPrevuH']);
-                $prevueR_tmp->format('H');
-                $str=strVal(intVal($prevueR_tmp->format('H'))+4).$prevueR_tmp->format('i').$prevueR_tmp->format('s');
-                //if(intVal($_POST['departPrevuH'])<21)
-                $prevueR=new \DateTime($_POST['departPrevuD'].$str);
-                //$loc->set
+                $HeureRetour_tmp=new \DateTime($_POST['departPrevuH']);
+                $date=new \DateTime($_POST['departPrevuD']);
+
+                $HeureRetour_tmp->format('H');
+                $heure=($HeureRetour_tmp->format('H')+4)%24;
+                $str=strVal(intVal($heure).":".$HeureRetour_tmp->format('i').":".$HeureRetour_tmp->format('s'));
+               
+                if(intVal($_POST['departPrevuH'])>=21 && intVal($_POST['departPrevuH'])<=23){
+                    
+                    $jour=$date->format('d');
+                    if(intVal($jour)==30 || intVal($jour)==31){
+                        $mois=intVal($date->format('m'))+1;
+                        $jour=1;
+                        $date=new \DateTime(strVal($jour)."-".strVal($mois)."-".$date->format("Y"));
+                    }
+
+                }
+                $prevueR=new \DateTime($date->format('d-m-Y')." ".$str);
+                $loc->setDateHreRetourPrevu($prevueR);
             }
             
 
