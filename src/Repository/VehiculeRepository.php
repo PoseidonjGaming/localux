@@ -47,4 +47,14 @@ class VehiculeRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findModele($value)
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.id = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

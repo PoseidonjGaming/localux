@@ -47,4 +47,15 @@ class TarificationRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findWhere($value, $formule)
+    {
+        return $this->createQueryBuilder('t')->Join('t.laFormuleSC','f')
+            ->Where('t.leModele = :val')
+            ->andWhere('f.libelle= :formule')
+            ->setParameter('val', $value)
+            ->setParameter('formule', $formule)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

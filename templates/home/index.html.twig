@@ -9,7 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-   {{form(form)}}
+   {{form_start(form)}}
+   {{form_row(form.laFormuleSC)}}
+   {{form_row(form.modele)}}
+   <input type='date' id="departPrevuD" name="departPrevuD" disabled>
+   <input type='time' id="departPrevuH" name="departPrevuH" disabled>
+   {{form_end(form)}}
 </div>
 {% endblock %}
 
@@ -18,13 +23,19 @@
     
   $('#loc_sans_chauff_type_form_modele').change(function () {
     
-    choice = $(this).children('option:selected').val()  // Récupération de l'index du <option> choisi
+    choice = $(this).children('option:selected').val()    
     
-    console.log(choice);
-    if(choice !="" ){$('#loc_sans_chauff_type_form_datelocation').removeAttr('disabled');}
-    else{$('#loc_sans_chauff_type_form_datelocation').attr('disabled','disabled');}
-    
-  }); 
+    if(choice !="" ){$('#departPrevuD').removeAttr('disabled');}
+    else{$('#departPrevuD').attr('disabled','disabled');}    
+  });
+  $('#departPrevuD').change(function(){
+    value=$(this).val().length;
+    console.log(value);
+    if(value==10){$('#departPrevuH').removeAttr('disabled');}
+    else{$('#departPrevuH').attr('disabled','disabled');}
+  });
+
+  console.log($('#departPrevuD').val())
 
 </script>
 {% endblock %}

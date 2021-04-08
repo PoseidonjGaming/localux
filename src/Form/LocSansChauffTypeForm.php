@@ -37,10 +37,7 @@ class LocSansChauffTypeForm extends AbstractType
                 'mapped'=>false,
                 'required'=>false
             ])
-            ->add('datelocation', DateTimeType::class,[
-                'widget'=>'single_text',
-                'disabled'=>'disabled'
-            ])
+            
             
             ->add('Confirmation de la location', SubmitType::class,['attr' => ['class' =>'btn btn-primary']])
         ;
