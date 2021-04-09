@@ -14,28 +14,12 @@
     <div class="card mb-4" style="width: 25rem;">
       <div class="card-body">
         <div class="col mb-4">
-              <form method="post" action="{{ path('index') }}">
-                <div class="row"><div class="col mb-4">
-                  <label for="formule">La Formule</label>
-                  <select name="formule" id="formule">
-                    <option value="" selected>Choisissez une formule</option>
-                    {% for uneFormule in formule %}
-                      <option value={{uneFormule.duree}}>{{uneFormule.libelle}}</option>
-                    {% endfor %}
-                  </select></div>
-                  <div class="col mb-4"><label for="formule">La Formule</label>
-                  <select name="modele" id="modele">
-                  <option value="" selected>Choisissez une formule</option>
-                    {% for unModele in modele %}
-                    <option value={{unModele.id}}>{{unModele.nom}}</option>
-                    {% endfor %}
-                  </select></div>
-                  <div class="col mb-4"><input type='date' id="departPrevuD" name="departPrevuD" disabled/>
-                  <input type='time' id="departPrevuH" name="departPrevuH" disabled/><p></p>
-                  <input type="submit" value="Louer" id="submit" name="submit" class="btn btn-primary"/></div>
-                </form>
-              </div>
-            </div>
+          {{form_start(form)}}
+            <p>La formule  {{form_widget(form.laFormuleSC)}}</p>
+            <p>Le modèle  {{form_widget(form.modele)}}</p>
+          <p>Le jour  <input type='date' id="departPrevuD" name="departPrevuD" disabled/></p>
+          <p>L'heure  <input type='time' id="departPrevuH" name="departPrevuH" disabled/></p><p></p>
+          {{form_end(form)}}
         </div>
     </div>
 </div>
@@ -44,7 +28,7 @@
 {% block javascripts %}
 <script>
     
-  $('#modele').change(function () {
+  $('#loc_sans_chauff_type_form_modele').change(function () {
     
     choice = $(this).children('option:selected').val()    
     
@@ -61,3 +45,5 @@
 
 </script>
 {% endblock %}
+
+

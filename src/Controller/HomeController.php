@@ -20,21 +20,23 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $loc=new LocationSansChauffeur();
         $em=$this->getDoctrine()->getManager();
-        $formule=$this->getDoctrine()->getRepository(FormuleSansChauffeur::class)->findAll();
-        $modele=$this->getDoctrine()->getRepository(Modele::class)->findAll();
-        if(isSet($_POST['submit'])){
+
+        $form = $this->createForm(LocSansChauffTypeForm::class,$loc);
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()){
             $voitures=$this->getDoctrine()->getRepository(Vehicule::class)->findAll();
             $laVoitureInt=array_rand($voitures,1);
             $laVoiture=$this->getDoctrine()->getRepository(Vehicule::class)->findModele($laVoitureInt+1);
-            $montant=$this->getDoctrine()->getRepository(Tarification::class)->findWhere($laVoiture->getLeModele(),$_POST['formule']);
+            $montant=$this->getDoctrine()->getRepository(Tarification::class)->findWhere($laVoiture->getLeModele(),$form->get('laFormuleSC')->getData()->getLibelle());
 
             $now=new \DateTime();
             $prevueD=new \DateTime($_POST['departPrevuD'].$_POST['departPrevuH']);
-            $duree=$_POST['formule'];
+            $duree=$form->get('laFormuleSC')->getData()->getDuree();
 
             if($duree==4){
                 $HeureRetour_tmp=new \DateTime($_POST['departPrevuH']);
@@ -47,7 +49,7 @@ class HomeController extends AbstractController
                 if(intVal($_POST['departPrevuH'])>=21 && intVal($_POST['departPrevuH'])<=23){
                     
                     $jour_tmp=$date_tmp->format('d');
-                    if(intVal($jour_tmp)==30 || intVal($jour_tmp)==31){
+                    if((intVal($jour_tmp)==30 && cal_days_in_month(CAL_GREGORIAN, $date_tmp->format('m'),$date_tmp->format('Y'))==30)|| (intVal($jour_tmp)==31 && cal_days_in_month(CAL_GREGORIAN, $date_tmp->format('m'),$date_tmp->format('Y'))==31)){
                         $mois=intVal($date_tmp->format('m'))+1;
                         $jour=1;
                         
@@ -69,7 +71,7 @@ class HomeController extends AbstractController
             elseif($duree==24){
                 $date_tmp=new \DateTime($_POST['departPrevuD']);
                 $jour_tmp=$date_tmp->format("d");
-                if(intVal($jour_tmp)==30 || intVal($jour_tmp)==31){
+                if((intVal($jour_tmp)==30 && cal_days_in_month(CAL_GREGORIAN, $date_tmp->format('m'),$date_tmp->format('Y'))==30)|| (intVal($jour_tmp)==31 && cal_days_in_month(CAL_GREGORIAN, $date_tmp->format('m'),$date_tmp->format('Y'))==31)){
                     $mois=intVal($date->format('m'))+1;
                     $jour=1;
                     
@@ -86,7 +88,7 @@ class HomeController extends AbstractController
             else{
                 $date_tmp=new \DateTime($_POST['departPrevuD']);
                 $jour_tmp=$date_tmp->format("d");
-                if(intVal($jour_tmp)==30 || intVal($jour_tmp)==31){
+                if((intVal($jour_tmp)==30 && cal_days_in_month(CAL_GREGORIAN, $date_tmp->format('m'),$date_tmp->format('Y'))==30)|| (intVal($jour_tmp)==31 && cal_days_in_month(CAL_GREGORIAN, $date_tmp->format('m'),$date_tmp->format('Y'))==31)){
                     $mois=intVal($date->format('m'))+1;
                     $jour=2;
                     
@@ -100,7 +102,7 @@ class HomeController extends AbstractController
                 $HeureRetour=new \DateTime($_POST['departPrevuH']);
                 $prevueR=new \DateTime($date->format('d-m-Y')." ".$HeureRetour->format('H:i:s'));
             }
-            $laformule=$this->getDoctrine()->getRepository(FormuleSansChauffeur::class)->findWhere($_POST['formule']);
+            //$laformule=$this->getDoctrine()->getRepository(FormuleSansChauffeur::class)->findWhere($_POST['formule']);
             $client=$this->getDoctrine()->getRepository(Client::class)->findAll();
 
             $loc->setDateHreRetourPrevu($prevueR);
@@ -109,7 +111,7 @@ class HomeController extends AbstractController
             $loc->setDateLocation($now);
             $loc->setDateHreDepartPrevu($prevueD);           
             $loc->setLeClient($client[0]);    
-            $loc->setLaFormuleSC($laformule);
+            $loc->setLaFormuleSC($form->get('laFormuleSC')->getData());
             $loc->setNbKmsDepart(0);
 
             $em->persist($loc);
@@ -120,8 +122,7 @@ class HomeController extends AbstractController
                        
         }
         return $this->render('home/index.html.twig', [
-            'formule'=>$formule,
-            'modele'=>$modele,
+            "form" => $form->createView(),
         ]);
     }
 }

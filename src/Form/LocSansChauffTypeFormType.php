@@ -12,6 +12,7 @@ use App\Entity\Modele;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Doctrine\ORM\EntityRepository;
 
 
 class LocSansChauffTypeForm extends AbstractType
@@ -22,11 +23,15 @@ class LocSansChauffTypeForm extends AbstractType
             ->add('laFormuleSC', EntityType::class, [            
                 'class' => FormuleSansChauffeur::class,            
                 'choice_label' => 'libelle',
-                'choice_value' => 'id',
+                'choice_value' => 'libelle',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'ASC');
+                    },
                 'multiple' => false,
                 'expanded' => false,
                 'mapped'=>false,
-                'required'=>false
+                'required'=>false,
             ])
             ->add('modele', EntityType::class, [            
                 'class' => Modele::class,            
