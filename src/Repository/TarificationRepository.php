@@ -51,7 +51,7 @@ class TarificationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')->Join('t.laFormuleSC','f')
             ->Where('t.leModele = :val')
-            ->andWhere('f.libelle= :formule')
+            ->andWhere('f.duree= :formule')
             ->setParameter('val', $value)
             ->setParameter('formule', $formule)
             ->getQuery()

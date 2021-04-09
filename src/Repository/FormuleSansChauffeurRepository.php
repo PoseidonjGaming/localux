@@ -47,4 +47,13 @@ class FormuleSansChauffeurRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findWhere($value)
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.duree = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

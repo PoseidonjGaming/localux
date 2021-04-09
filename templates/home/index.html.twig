@@ -6,22 +6,45 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .conn{margin: 10% ;}
 </style>
 
 <div class="example-wrapper">
-   {{form_start(form)}}
-   {{form_row(form.laFormuleSC)}}
-   {{form_row(form.modele)}}
-   <input type='date' id="departPrevuD" name="departPrevuD" disabled/>
-   <input type='time' id="departPrevuH" name="departPrevuH" disabled/>
-   {{form_end(form)}}
+  <div class="conn">
+    <div class="card mb-4" style="width: 25rem;">
+      <div class="card-body">
+        <div class="col mb-4">
+              <form method="post" action="{{ path('index') }}">
+                <div class="row"><div class="col mb-4">
+                  <label for="formule">La Formule</label>
+                  <select name="formule" id="formule">
+                    <option value="" selected>Choisissez une formule</option>
+                    {% for uneFormule in formule %}
+                      <option value={{uneFormule.duree}}>{{uneFormule.libelle}}</option>
+                    {% endfor %}
+                  </select></div>
+                  <div class="col mb-4"><label for="formule">La Formule</label>
+                  <select name="modele" id="modele">
+                  <option value="" selected>Choisissez une formule</option>
+                    {% for unModele in modele %}
+                    <option value={{unModele.id}}>{{unModele.nom}}</option>
+                    {% endfor %}
+                  </select></div>
+                  <div class="col mb-4"><input type='date' id="departPrevuD" name="departPrevuD" disabled/>
+                  <input type='time' id="departPrevuH" name="departPrevuH" disabled/><p></p>
+                  <input type="submit" value="Louer" id="submit" name="submit" class="btn btn-primary"/></div>
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
 <script>
     
-  $('#loc_sans_chauff_type_form_modele').change(function () {
+  $('#modele').change(function () {
     
     choice = $(this).children('option:selected').val()    
     
