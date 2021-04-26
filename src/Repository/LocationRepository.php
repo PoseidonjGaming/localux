@@ -47,4 +47,13 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findWhere($value)
+    {
+        return $this->createQueryBuilder('l')
+            ->Where('l.dateLocation = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }
